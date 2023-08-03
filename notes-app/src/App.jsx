@@ -11,13 +11,11 @@ const App = () => {
 
   useEffect(() => {
     console.log("hello");
-    //1. get data from backend server
     let myAxiosPromise = noteService.getAll();
     myAxiosPromise.then((myData) => {
       console.log("returned promise");
       console.dir(myData);
       myData.push({ id: 1000, content: "this is fake note", important: true });
-      //2. put the data into notes state
       setNotes(myData);
     });
 
@@ -52,7 +50,6 @@ const App = () => {
   };
 
   const updateData = (id) => {
-    //1. update the server
     let currentNote = notes.find((note) => {
       return note.id === id;
     });
@@ -62,7 +59,6 @@ const App = () => {
       .then((result) => {
         console.dir(result);
         let updatedNote = result.data;
-        //2. update the state
         setNotes(
           notes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
         );
@@ -72,7 +68,6 @@ const App = () => {
         console.dir(err);
         if (err.response.status === 404) {
           console.log("this means the id does not exist in the server");
-          // alert(`sorry this note "${currentNote.content}" does not exist`);
           setNotification(
             `sorry this note "${currentNote.content}" does not exist`
           );
