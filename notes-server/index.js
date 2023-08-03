@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const url = `mongodb+srv://hemlal:dulalpro@cluster0.nyjc2xc.mongodb.net/noteApp?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${process.env.DB_USERNAME}:{process.env.DB_PASSWORD}o@cluster0.nyjc2xc.mongodb.net/noteApp?retryWrites=true&w=majority`;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
@@ -11,6 +12,14 @@ mongoose.connect(url);
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
+});
+
+noteSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
 });
 
 const Note = mongoose.model("Note", noteSchema);
