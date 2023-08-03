@@ -1,6 +1,29 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const mongoose = require("mongoose");
+
+const url = `mongodb+srv://hemlal:dulalpro@cluster0.nyjc2xc.mongodb.net/noteApp?retryWrites=true&w=majority`;
+
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+const Note = mongoose.model("Note", noteSchema);
+
+// const note = new Note({
+//   content: "HTML is Easy",
+//   important: false,
+// });
+
+// note.save().then((result) => {
+//   console.log("note saved!");
+//   mongoose.connection.close();
+// });
 
 app.use(express.json());
 app.use(cors());
@@ -15,26 +38,12 @@ const reqLogger = (req, resp, next) => {
 
 app.use(reqLogger);
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true,
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false,
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true,
-  },
-];
+let notes = [];
 
 app.get("/api/notes", (req, resp) => {
-  resp.json(notes);
+  Note.find({}).then((result) => {
+    resp.json(result);
+  });
 });
 
 app.get("/api/notes/:id", (req, resp) => {
