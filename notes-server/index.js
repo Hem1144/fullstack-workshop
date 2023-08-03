@@ -3,8 +3,10 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const e = require("express");
+dotenv.config();
 
-const url = `mongodb+srv://${process.env.DB_USERNAME}:{process.env.DB_PASSWORD}o@cluster0.nyjc2xc.mongodb.net/noteApp?retryWrites=true&w=majority`;
+const url = process.env.MONGODB;
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
@@ -55,15 +57,21 @@ app.get("/api/notes", (req, resp) => {
   });
 });
 
-app.get("/api/notes/:id", (req, resp) => {
-  const myId = Number(req.params.id);
-  const myNote = notes.find((note) => note.id === myId);
-
-  if (myNote) {
-    resp.json(myNote);
-  } else {
-    resp.status(404).send(`There are no notes at ${myId}`);
-  }
+app.get("/api/notes/:id", (req, resp, next) => {
+  Note.findById(req.params.id)
+    .then((result) => {
+      if (result) {
+        resp.json(result);
+      } else {
+        resp.status(404).send(`There are no notes at ${req.params.id}`);
+      }
+    })
+    .catch((err) => {
+      //Here handling middlewaew
+      next(err);
+      // console.log(err);
+      // resp.status(500).send(`${req.params.id} is not a expected format`);
+    });
 });
 
 app.put("/api/notes/:id", (req, resp) => {
@@ -102,6 +110,20 @@ app.post("/api/notes", (req, resp) => {
 app.use((req, resp, next) => {
   resp.status(404).send("No code is available for your server");
 });
+
+//Error handling function
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+// this has to be the last loaded middleware.
+app.use(errorHandler);
 
 const PORT = process.env.PORT ? process.env.PORT : 3001;
 app.listen(PORT);
