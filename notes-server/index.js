@@ -24,7 +24,7 @@ noteSchema.set("toJSON", {
   },
 });
 
-const Note = mongoose.model("Note", noteSchema);
+const Note = mongoose.model("demo", noteSchema);
 
 // const note = new Note({
 //   content: "HTML is Easy",
