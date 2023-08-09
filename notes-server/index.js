@@ -118,7 +118,6 @@ app.use((req, resp, next) => {
   resp.status(404).send("No code is available for your server");
 });
 
-//Error handling function
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
@@ -129,7 +128,6 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-// this has to be the last, added middleware.
 app.use(errorHandler);
 
 const PORT = process.env.PORT ? process.env.PORT : 3001;
