@@ -2,11 +2,14 @@
 GET http://localhost:3001/api/notes
 
 ###
+GET http://localhost:3001/api/notes/64d4c66be47aa50c5e8bcd00
+
+###
 POST  http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content":"Smotott",
+    "content":"Santa",
     "important":"false"
 }
 
@@ -18,3 +21,6 @@ Content-Type: application/json
     "content":"sample note",
     "important":"false"
 }
+
+###
+DELETE http://localhost:3001/api/notes/64d4c66be47aa50c5e8bcd00
