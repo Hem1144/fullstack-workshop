@@ -20,5 +20,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
-  rules: {},
+  rules: {
+    eqeqeq: "error",
+    "no-console": 0,
+  },
 };

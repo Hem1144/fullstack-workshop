@@ -7,12 +7,11 @@ dotenv.config();
 
 const url = process.env.MONGODB;
 
-
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
 
 const noteSchema = new mongoose.Schema({
-  //Directly error handling here
+  //Directly error handling validation applied here
   content: {
     type: String,
     minlength: 5,
