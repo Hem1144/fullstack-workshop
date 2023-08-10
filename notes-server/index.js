@@ -3,10 +3,10 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const e = require("express");
 dotenv.config();
 
 const url = process.env.MONGODB;
+
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
@@ -54,8 +54,6 @@ const reqLogger = (req, resp, next) => {
 
 app.use(reqLogger);
 
-let notes = [];
-
 app.get("/api/notes", (req, resp) => {
   Note.find({}).then((result) => {
     resp.json(result);
@@ -87,7 +85,11 @@ app.put("/api/notes/:id", (request, response, next) => {
     important: body.important,
   };
 
-  Note.findByIdAndUpdate(request.params.id, note, { new: true })
+  Note.findByIdAndUpdate(request.params.id, note, {
+    new: true,
+    //We have to use "runValidators: true" for resolving error in PUT method
+    runValidators: true,
+  })
     .then((updatedNote) => {
       response.json(updatedNote);
     })
@@ -96,7 +98,7 @@ app.put("/api/notes/:id", (request, response, next) => {
 
 app.delete("/api/notes/:id", (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then((result) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
@@ -120,7 +122,7 @@ app.post("/api/notes", (request, response, next) => {
     });
 });
 
-app.use((req, resp, next) => {
+app.use((req, resp) => {
   resp.status(404).send("No code is available for your server");
 });
 
