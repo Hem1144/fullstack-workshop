@@ -5,9 +5,12 @@ const mongoose = require("mongoose");
 const notesController = require("./controllers/notes");
 const { url } = require("./utils/config");
 const { errorHandler, noHandlers, reqLogger } = require("./utils/middleware");
+// const { info } = require("./utils/logger");
 
 mongoose.set("strictQuery", false);
 mongoose.connect(url);
+
+// info("NODE_ENV is", process.env.NODE_ENV);
 
 // const note = new Note({
 //   content: "HTML is Easy",

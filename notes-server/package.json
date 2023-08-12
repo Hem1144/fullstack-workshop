@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "dev": "nodemon index.js",
+    "test": "NODE_ENV=test jest --verbose",
+    "dev": "NODE_ENV=dev nodemon index.js",
     "production": "node index.js",
     "build:ui": "rm -rf dist && cd ../notes-app && rm -rf src/dist && npm run build && cp -r src/dist ../notes-server",
     "lint": "eslint ."
