@@ -1,10 +1,9 @@
 const app = require("express").Router();
 const Note = require("../models/note");
 
-app.get("/", (req, resp) => {
-  Note.find({}).then((result) => {
-    resp.json(result);
-  });
+app.get("/", async (req, resp) => {
+  let result = await Note.find({});
+  resp.json(result);
 });
 
 app.get("/:id", (req, resp, next) => {
@@ -51,7 +50,7 @@ app.delete("/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.post("/", (request, response, next) => {
+app.post("/", async (request, response, next) => {
   const body = request.body;
 
   const note = new Note({
@@ -59,14 +58,13 @@ app.post("/", (request, response, next) => {
     important: body.important || false,
   });
 
-  note
-    .save()
-    .then((savedNote) => {
-      response.json(savedNote);
-    })
-    .catch((e) => {
-      next(e);
-    });
+  //TODO: Don't use "express-async-error"
+  try {
+    const savedNote = await note.save();
+    response.status(201).json(savedNote);
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = app;
