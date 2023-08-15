@@ -4,51 +4,80 @@ const app = require("../app");
 const Note = require("../models/note");
 const helpers = require("./test_helper");
 
+// beforeEach(async () => {
+//   await Note.deleteMany({});
+//   //! Here we create a new note and save.
+//   let noteObject = new Note(helpers.initialNotes[0]);
+//   await noteObject.save();
+//   noteObject = new Note(helpers.initialNotes[1]);
+//   await noteObject.save();
+// }, 10000); //Here additionally set the timer to aachive the test cases
+
 beforeEach(async () => {
   await Note.deleteMany({});
-  //! Here we create a new note and save.
-  let noteObject = new Note(helpers.initialNotes[0]);
-  await noteObject.save();
-  noteObject = new Note(helpers.initialNotes[1]);
-  await noteObject.save();
-}, 10000); //Here additionally set the timer to aachive the test cases
+  const noteObjects = helpers.initialNotes.map((note) => new Note(note));
+  const promiseArray = noteObjects.map((note) => note.save());
+  await Promise.all(promiseArray); //! It resolve array of Promises using single
+}, 10000);
 
 const api = supertest(app);
 
-test("notes are returned as json", async () => {
-  await api
-    .get("/api/notes")
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-}, 10000); //This time out is set for time-out error
+describe("Testing GET method", () => {
+  test("notes are returned as json", async () => {
+    await api
+      .get("/api/notes")
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+  }, 10000); //This time out is set for time-out error
 
-test("there are two notes", async () => {
-  const response = await helpers.notesInDb(); //api.get is the method of supertest
+  test("there are two notes", async () => {
+    const response = await helpers.notesInDb(); //api.get is the method of supertest
 
-  expect(response).toHaveLength(helpers.initialNotes.length); //Jest framework
+    expect(response).toHaveLength(helpers.initialNotes.length); //Jest framework
+  });
+
+  //! We can run only one test by adding .only keyword
+  test("the first note is about HTTP methods", async () => {
+    const response = await helpers.notesInDb();
+
+    const contents = response.map((r) => r.content);
+
+    expect(contents).toContain(helpers.initialNotes[0].content);
+  });
 });
 
-//! We can run only one test by adding .only keyword
-test("the first note is about HTTP methods", async () => {
-  const response = await helpers.notesInDb();
+describe("Testing POST method", () => {
+  test("a valid note can be added", async () => {
+    const newNote = {
+      content: "async/await simplifies making async calls",
+      important: true,
+    };
 
-  expect(response[0].content).toBe(helpers.initialNotes[0].content);
-});
+    await api
+      .post("/api/notes")
+      .send(newNote)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
 
-test("a note without content cannot be added", async () => {
-  const newNote = {
-    important: true,
-  };
+    const response = await api.get("/api/notes");
 
-  await api
-    .post("/api/notes")
-    .send(newNote)
-    .expect(400)
-    .expect("Content-Type", /application\/json/);
+    const contents = response.body.map((r) => r.content);
 
-  const response = await api.get("/api/notes");
+    expect(response.body).toHaveLength(helpers.initialNotes.length + 1);
+    expect(contents).toContain("async/await simplifies making async calls");
+  });
 
-  expect(response.body).toHaveLength(helpers.initialNotes.length);
+  test("note without content is not added", async () => {
+    const newNote = {
+      important: true,
+    };
+
+    await api.post("/api/notes").send(newNote).expect(400);
+
+    const response = await api.get("/api/notes");
+
+    expect(response.body).toHaveLength(helpers.initialNotes.length);
+  });
 });
 
 afterAll(async () => {
