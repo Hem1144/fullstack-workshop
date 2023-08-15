@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const noteSchema = new mongoose.Schema({
   //Directly error handling validation applied here
   content: {

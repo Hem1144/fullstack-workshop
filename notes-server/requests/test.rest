@@ -2,14 +2,14 @@
 GET http://localhost:3001/api/notes
 
 ###
-GET http://localhost:3001/api/notes/64d4c66be47aa50c5e8bcd00
+GET http://localhost:3001/api/notes/64db2dd2518e797dd357e5ef
 
 ###
 POST  http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content":"Fullstack",
+    "username":"Fullstack",
     "important":"true"
 }
 
