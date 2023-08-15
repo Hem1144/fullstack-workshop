@@ -9,8 +9,8 @@ POST  http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content":"Coding practice",
-    "important":"false"
+    "content":"Fullstack",
+    "important":"true"
 }
 
 ###
