@@ -5,12 +5,23 @@ GET http://localhost:3001/api/notes
 GET http://localhost:3001/api/notes/64db2dd2518e797dd357e5ef
 
 ###
-POST  http://localhost:3001/api/notes
+POST  http://localhost:3001/api/notes/
 Content-Type: application/json
 
 {
-    "username":"Fullstack",
-    "important":"true"
+    "content":"Sample by Hemlal",
+    "important":"false",
+    "userId":"64dc5ec728b1fc9f3d5f4168"
+}
+
+###
+POST  http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "name":"Hemlal Dulal2",
+    "username":"Hem4",
+    "password":"dulal123"
 }
 
 ###

@@ -3,7 +3,10 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
 app.get("/", async (req, resp) => {
-  let result = await User.find({});
+  let result = await User.find({}).populate("notes", {
+    content: 1,
+    important: 1,
+  }); //".populate methods takes schema"
   resp.json(result);
 });
 

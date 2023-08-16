@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  Note: [
+  notes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Note",
@@ -23,6 +23,7 @@ userSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    delete returnedObject.passwordHash
   },
 });
 userSchema.plugin(uniqueValidator);
