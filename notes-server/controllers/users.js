@@ -6,7 +6,7 @@ app.get("/", async (req, resp) => {
   let result = await User.find({}).populate("notes", {
     content: 1,
     important: 1,
-  }); //".populate methods takes schema"
+  }); //".populate methods takes schema as a first arg and second arg as a required fields"
   resp.json(result);
 });
 
