@@ -1,6 +1,7 @@
 const app = require("express").Router();
 const Note = require("../models/note");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 app.get("/", async (req, resp) => {
   let result = await Note.find({}).populate("user", { username: 1, name: 1 });
@@ -58,18 +59,31 @@ app.delete("/:id", async (request, response, next) => {
   }
 });
 
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
+
 app.post("/", async (request, response, next) => {
   const body = request.body;
-  const user = await User.findById(body.userId);
-
-  const note = new Note({
-    content: body.content,
-    important: body.important || false,
-    user: user.id,
-  });
-
-  //TODO: Don't use "express-async-error"
   try {
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token invalid" });
+    }
+    const user = await User.findById(decodedToken.id);
+
+    const note = new Note({
+      content: body.content,
+      important: body.important || false,
+      user: user.id,
+    });
+
+    //TODO: Don't use "express-async-error"
+
     const savedNote = await note.save(); //! ".save" returns promise here
     response.status(201).json(savedNote);
     user.notes = user.notes.concat(savedNote.id);
