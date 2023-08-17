@@ -45,4 +45,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/api/notes/64d4c66be47aa50c5e8bcd00
+DELETE http://localhost:3001/api/notes/
