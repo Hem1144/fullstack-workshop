@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Note from "./components/Note";
 import noteService from "./services/notes";
+import loginService from "./services/login";
 import Notification from "./components/Notification";
 
 const App = () => {
@@ -8,6 +9,9 @@ const App = () => {
   const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [notification, setNotification] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     console.log("hello");
@@ -81,7 +85,53 @@ const App = () => {
       });
   };
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    console.log("logging in with", username, password);
+    let loggedinUser = await loginService.login({
+      username,
+      password,
+    });
+    console.log("Logged in User ", loggedinUser);
+    setUser(loggedinUser);
+  };
+
   const myStyle = { fontSize: "60px" };
+
+  const loginForm = () => {
+    return (
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    );
+  };
+
+  const noteForm = () => {
+    return (
+      <form onSubmit={handleSubmit}>
+        <input value={newNote} onChange={handleChange} />
+        <button>Submit</button>
+      </form>
+    );
+  };
 
   return (
     <>
@@ -89,6 +139,9 @@ const App = () => {
         Notes
       </h1>
       <Notification message={notification} />
+
+      {user === null ? loginForm() : noteForm()}
+
       <button onClick={handleShowAll}>
         show {showAll ? "important" : "all"}
       </button>
@@ -105,10 +158,6 @@ const App = () => {
           );
         })}
       </ul>
-      <form onSubmit={handleSubmit}>
-        <input value={newNote} onChange={handleChange} />
-        <button>Submit</button>
-      </form>
     </>
   );
 };
