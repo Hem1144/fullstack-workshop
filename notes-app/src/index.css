@@ -1,5 +1,6 @@
 .redbackground {
-  background: green;
+  margin-top: 0;
+  color: green;
 }
 
 .error {

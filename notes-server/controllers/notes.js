@@ -87,6 +87,8 @@ app.post("/", async (request, response, next) => {
     const savedNote = await note.save(); //! ".save" returns promise here
     response.status(201).json(savedNote);
     user.notes = user.notes.concat(savedNote.id);
+
+    
     await user.save();
   } catch (e) {
     next(e);
