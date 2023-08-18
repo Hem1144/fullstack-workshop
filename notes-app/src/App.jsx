@@ -34,13 +34,20 @@ const App = () => {
       content: newNote,
       important: Math.random() > 0.5,
     };
-    let postPromise = noteService.create(myNote);
-    postPromise.then((result) => {
-      console.dir(result);
-      console.log("note created data return", result.data);
-      setNotes(notes.concat(result.data));
-      setNewNote("");
-    });
+    let postPromise = noteService.create(myNote, user.token);
+    postPromise
+      .then((result) => {
+        console.dir(result);
+        console.log("note created data return", result.data);
+        setNotes(notes.concat(result.data));
+        setNewNote("");
+      })
+      .catch((error) => {
+        setNotification(error.response.data.error);
+        setTimeout(() => {
+          setNotification("");
+        }, 2000);
+      });
     console.log("form has been submitted");
   };
 
@@ -88,12 +95,18 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     console.log("logging in with", username, password);
-    let loggedinUser = await loginService.login({
-      username,
-      password,
-    });
-    console.log("Logged in User ", loggedinUser);
-    setUser(loggedinUser);
+    try {
+      let loggedinUser = await loginService.login({
+        username,
+        password,
+      });
+      setUser(loggedinUser);
+    } catch (error) {
+      setNotification(error.response.data.error);
+      setTimeout(() => {
+        setNotification("");
+      }, 2000);
+    }
   };
 
   const myStyle = { fontSize: "60px" };
