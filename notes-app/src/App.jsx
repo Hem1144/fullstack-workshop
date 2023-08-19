@@ -23,6 +23,13 @@ const App = () => {
       setNotes(myData);
     });
 
+    //! Lets get user from localStorage if available
+    let myUser = window.localStorage.getItem("noteUser");
+
+    if (myUser) {
+      setUser(JSON.parse(myUser));
+    }
+
     console.log(myAxiosPromise);
   }, []);
 
@@ -47,6 +54,10 @@ const App = () => {
         setTimeout(() => {
           setNotification("");
         }, 2000);
+        if (error.response.data.error === "token expired") {
+          setUser(null);
+          window.localStorage.removeItem("noteUser");
+        }
       });
     console.log("form has been submitted");
   };
@@ -101,6 +112,7 @@ const App = () => {
         password,
       });
       setUser(loggedinUser);
+      window.localStorage.setItem("noteUser", JSON.stringify(loggedinUser));
     } catch (error) {
       setNotification(error.response.data.error);
       setTimeout(() => {
