@@ -17,13 +17,13 @@ authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbT
 }
 
 ###
-POST  http://localhost:3001/api/users
+POST  http://localhost:3001/api/users/64e89e0f089d17e135a75f21
 Content-Type: application/json
 
 {
-    "name":"Hemlal Dulal2",
-    "username":"Hem7",
-    "password":"dulal123"
+    "name":"Bhabu",
+    "username":"bhabu",
+    "password":"bhabu123"
 }
 
 ###
