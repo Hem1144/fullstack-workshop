@@ -6,11 +6,12 @@
     "plugin:jsx-a11y/recommended",
     "prettier"
   ],
+  "ignorePatterns": ["dist", ".eslintrc.cjs"],
   "rules": {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0
   },
-  "plugins": ["react", "import", "jsx-a11y"],
+  "plugins": ["react", "import", "jsx-a11y", "react-refresh", "jest"],
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module",
@@ -21,7 +22,8 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "settings": {
     "react": {
