@@ -7,30 +7,31 @@ GET http://localhost:3001/api/notes/64db2dd2518e797dd357e5ef
 ###
 POST  http://localhost:3001/api/notes/
 Content-Type: application/json
-authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbTYiLCJpZCI6IjY0ZGYwOWE2YzE3YTVjNzE5MTU5NDA4MCIsImlhdCI6MTY5MjMzODYxOSwiZXhwIjoxNjkyMzM4NzE5fQ.TWWfGHtgOMgH-oyljpuxT114T8KdD3PKUsoFXoQH8d0
+authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkhlbTYiLCJpZCI6IjY0ZGYwOWE2YzE3YTVjNzE5MTU5NDA4MCIsImlhdCI6MTY5MzQ3NDU1NSwiZXhwIjoxNjkzNDc0NTg1fQ.Hq_Na3qgH5wyN9_wcd7g1hpofBk_99srVxEytpS8Q-4
 
 
 {
     "content":"note creation using token",
     "important":"false",
-    "userId":"64dc5ec728b1fc9f3d5f4168"
+    "userId":"4dc5ec7268b1fc9f3d5f4168"
 }
 
 ###
-POST  http://localhost:3001/api/users/64e89e0f089d17e135a75f21
+POST  http://localhost:3001/api/users/
 Content-Type: application/json
 
 {
-    "name":"Bhabu",
-    "username":"bhabu",
-    "password":"bhabu123"
+    "name":"Bhuban",
+    "username":"bhuban1",
+    "password":"dulal123"
 }
 
 ###
-POST  http://localhost:3001/api/login
+POST  http://localhost:3001/api/login/
 Content-Type: application/json
+
 {
-    "username":"Hem7",
+    "username":"Hem6",
     "password":"dulal123"
 }
 
