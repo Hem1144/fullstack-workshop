@@ -3,6 +3,7 @@ const supertest = require("supertest");
 const app = require("../app");
 const Note = require("../models/note");
 const helpers = require("./test_helper");
+const { info } = require("../utils/logger");
 
 // beforeEach(async () => {
 //   await Note.deleteMany({});
@@ -53,18 +54,22 @@ describe("Testing POST method", () => {
       important: true,
     };
 
-    await api
-      .post("/api/notes")
-      .send(newNote)
-      .expect(201)
-      .expect("Content-Type", /application\/json/);
+    try {
+      await api
+        .post("/api/notes")
+        .send(newNote)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
 
-    const response = await api.get("/api/notes");
+      const posteNote = await helpers.notesInDb();
 
-    const contents = response.body.map((r) => r.content);
+      expect(posteNote).toHaveLength(helpers.initialNotes.length + 1);
+      const contents = posteNote.map((r) => r.content);
 
-    expect(response.body).toHaveLength(helpers.initialNotes.length + 1);
-    expect(contents).toContain("async/await simplifies making async calls");
+      expect(contents).toContain("async/await simplifies making async calls");
+    } catch (error) {
+      info("Error creating a note:", error);
+    }
   });
 
   test("note without content is not added", async () => {

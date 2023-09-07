@@ -18,7 +18,6 @@ const NoteForm = ({ onSubmit }) => {
       <h2>Create a new note</h2>
 
       <form onSubmit={mySubmit}>
-        <input />
         <input
           className="something"
           placeholder="write note content here"
