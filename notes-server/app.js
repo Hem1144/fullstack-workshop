@@ -34,6 +34,11 @@ app.use("/api/notes", notesController);
 app.use("/api/users", usersController);
 app.use("/api/login", loginController); //Anytime "/api/login" path called loginController fulfilled the request
 
+// if (process.env.NODE_ENV === "test") {
+//   const testingRouter = require("./controllers/testing");
+//   app.use("/api/testing", testingRouter);
+// }
+
 app.use(noHandlers);
 
 app.use(errorHandler);
