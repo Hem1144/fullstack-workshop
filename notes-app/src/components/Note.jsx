@@ -3,7 +3,7 @@ const Note = ({ note, updateNote }) => {
     <li className="note">
       {note.content}{" "}
       <button onClick={updateNote}>
-        please change {note.important ? "true" : "false"}
+        change {note.important ? "true" : "false"}
       </button>
     </li>
   );

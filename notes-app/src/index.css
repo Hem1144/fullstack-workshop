@@ -8,6 +8,7 @@
   background: red;
   padding: 10px;
   font-size: 30px;
+  border-style: solid;
   border-radius: 10px;
   margin-bottom: 10px;
 }
