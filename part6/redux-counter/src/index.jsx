@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { createStore } from "redux";
 
@@ -15,7 +15,7 @@ const counterReducer = (state = 100, action) => {
 const store = createStore(counterReducer);
 
 const App = () => {
-  const [counter, setCounter] = useState(10);
+  // const [counter, setCounter] = useState(10);
 
   const addCounter = () => {
     store.dispatch({ type: "ADD" });
@@ -27,7 +27,7 @@ const App = () => {
   };
 
   const makeCounter = () => {
-    setCounter(0);
+    // setCounter(0);
   };
   return (
     <>
