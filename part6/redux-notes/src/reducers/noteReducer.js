@@ -7,7 +7,7 @@ const noteReducer = (state = [], action) => {
       return newState;
     }
     case "TOGGLE_IMPORTANCE": {
-      let myNote = state.find((note) => note.id === action.payload.id);
+      let myNote = state.find((note) => note.id === action.payload);
       let changedNote = { ...myNote, important: !myNote.important };
       // changedNote.important = !changedNote.important;
       return state.map((note) =>
@@ -19,5 +19,21 @@ const noteReducer = (state = [], action) => {
       return state;
   }
 };
+
+const createNote = (newNote) => {
+  return {
+    type: "NEW_NOTE",
+    payload: newNote,
+  };
+};
+
+const toggleImportantOf = (id) => {
+  return {
+    type: "TOGGLE_IMPORTANCE",
+    payload: id,
+  };
+};
+
+export { createNote, toggleImportantOf };
 
 export default noteReducer;
