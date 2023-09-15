@@ -1,5 +1,13 @@
+import NoteForm from "./components/NoteForm";
+import Notes from "./components/Notes";
+
 const App = () => {
-  return <div>Hello there</div>;
+  return (
+    <div>
+      <NoteForm />
+      <Notes />
+    </div>
+  );
 };
 
 export default App;
