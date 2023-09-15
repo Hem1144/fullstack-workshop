@@ -1,6 +1,8 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Notes from "./Notes";
 import Note from "./Note";
+import { useState } from "react";
+import Login from "./Login";
 
 const notes = [
   {
@@ -32,6 +34,7 @@ const Users = () => (
   </div>
 );
 const App = () => {
+  const [user, setUser] = useState(null);
   const padding = {
     padding: 5,
   };
@@ -48,13 +51,23 @@ const App = () => {
         <Link style={padding} to="/users">
           users
         </Link>
+        {user ? (
+          <em>{user} logged in</em>
+        ) : (
+          <Link style={padding} to="/login">
+            login
+          </Link>
+        )}
       </div>
 
       <Routes>
         <Route path="/notes/:id" element={<Note notes={notes} />} />
-
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
-        <Route path="/users" element={<Users />} />
+        <Route
+          path="/users"
+          element={user ? <Users /> : <Navigate replace to="/login" />}
+        />{" "}
         <Route path="/" element={<Home />} />
       </Routes>
 
