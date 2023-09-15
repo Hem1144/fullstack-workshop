@@ -1,24 +1,33 @@
-import { useState } from "react";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Notes from "./Notes";
+import Note from "./Note";
+
+const notes = [
+  {
+    content: "the app state is in redux store",
+    important: true,
+    id: 1,
+  },
+  {
+    content: "state changes are made with actions",
+    important: false,
+    id: 2,
+  },
+  {
+    content: "one more",
+    important: true,
+    id: 3,
+  },
+];
 
 const Home = () => (
   <div>
-    {" "}
     <h2>TKTL notes app</h2>
-  </div>
-);
-
-const Notes = () => (
-  <div>
-    {" "}
-    <h2>Notes</h2>
   </div>
 );
 
 const Users = () => (
   <div>
-    {" "}
     <h2>Users</h2>
   </div>
 );
@@ -42,7 +51,9 @@ const App = () => {
       </div>
 
       <Routes>
-        <Route path="/notes" element={<Notes />} />
+        <Route path="/notes/:id" element={<Note notes={notes} />} />
+
+        <Route path="/notes" element={<Notes notes={notes} />} />
         <Route path="/users" element={<Users />} />
         <Route path="/" element={<Home />} />
       </Routes>
@@ -53,7 +64,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
 export default App;
