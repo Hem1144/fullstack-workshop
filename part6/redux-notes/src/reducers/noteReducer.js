@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = [
   {
     content: "reducer defines how redux store works",
@@ -10,6 +12,25 @@ const initialState = [
     id: 2,
   },
 ];
+
+const noteReducer = createSlice({
+  names:"notes",
+  initialState,
+  reducers: {
+    createNote(state, action) {
+        const newState = state.concat(action.payload);
+      return newState;
+    },
+    toggleImportantOf(state,action) {
+      let myNote = state.find((note) => note.id === action.payload);
+      let changedNote = { ...myNote, important: !myNote.important };
+      // changedNote.important = !changedNote.important;
+      return state.map((note) =>import noteReducer from './noteReducer';
+
+        note.id === changedNote.id ? changedNote : note);
+}
+  }
+})
 
 const noteReducer = (state = initialState, action) => {
   console.log("Action is ", action);
@@ -24,6 +45,7 @@ const noteReducer = (state = initialState, action) => {
       let changedNote = { ...myNote, important: !myNote.important };
       // changedNote.important = !changedNote.important;
       return state.map((note) =>
+
         note.id === changedNote.id ? changedNote : note
       );
     }
