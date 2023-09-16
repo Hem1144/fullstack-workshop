@@ -4,7 +4,9 @@ import { toggleImportantOf } from "../reducers/noteReducer";
 const Notes = () => {
   const dispatch = useDispatch();
 
-  const filter = useSelector((state) => state.filter);
+  const filter = useSelector((state) => {
+    return state.filter;
+  });
 
   const notes = useSelector((state) => {
     if (filter === "ALL") {

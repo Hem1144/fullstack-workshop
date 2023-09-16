@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+// import noteReducer from "./noteReducer";
 
 const initialState = [
   {
@@ -14,61 +15,61 @@ const initialState = [
 ];
 
 const noteReducer = createSlice({
-  names:"notes",
+  name: "notes",
   initialState,
   reducers: {
     createNote(state, action) {
-        const newState = state.concat(action.payload);
-      return newState;
-    },
-    toggleImportantOf(state,action) {
-      let myNote = state.find((note) => note.id === action.payload);
-      let changedNote = { ...myNote, important: !myNote.important };
-      // changedNote.important = !changedNote.important;
-      return state.map((note) =>import noteReducer from './noteReducer';
-
-        note.id === changedNote.id ? changedNote : note);
-}
-  }
-})
-
-const noteReducer = (state = initialState, action) => {
-  console.log("Action is ", action);
-  console.log("State is", state);
-  switch (action.type) {
-    case "NEW_NOTE": {
       const newState = state.concat(action.payload);
       return newState;
-    }
-    case "TOGGLE_IMPORTANCE": {
+    },
+    toggleImportantOf(state, action) {
       let myNote = state.find((note) => note.id === action.payload);
       let changedNote = { ...myNote, important: !myNote.important };
       // changedNote.important = !changedNote.important;
       return state.map((note) =>
-
         note.id === changedNote.id ? changedNote : note
       );
-    }
+    },
+  },
+});
 
-    default:
-      return state;
-  }
-};
+// const noteReducer = (state = initialState, action) => {
+//   console.log("Action is ", action);
+//   console.log("State is", state);
+//   switch (action.type) {
+//     case "NEW_NOTE": {
+//       const newState = state.concat(action.payload);
+//       return newState;
+//     }
+//     case "TOGGLE_IMPORTANCE": {
+//       let myNote = state.find((note) => note.id === action.payload);
+//       let changedNote = { ...myNote, important: !myNote.important };
+//       // changedNote.important = !changedNote.important;
+//       return state.map((note) =>
 
-const createNote = (newNote) => {
-  return {
-    type: "NEW_NOTE",
-    payload: newNote,
-  };
-};
+//         note.id === changedNote.id ? changedNote : note
+//       );
+//     }
 
-const toggleImportantOf = (id) => {
-  return {
-    type: "TOGGLE_IMPORTANCE",
-    payload: id,
-  };
-};
+//     default:
+//       return state;
+//   }
+// };
 
-export { createNote, toggleImportantOf };
+// const createNote = (newNote) => {
+//   return {
+//     type: "NEW_NOTE",
+//     payload: newNote,
+//   };
+// };
 
-export default noteReducer;
+// const toggleImportantOf = (id) => {
+//   return {
+//     type: "TOGGLE_IMPORTANCE",
+//     payload: id,
+//   };
+// };
+
+export const { createNote, toggleImportantOf } = noteReducer.actions;
+
+export default noteReducer.reducer;

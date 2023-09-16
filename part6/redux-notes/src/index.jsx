@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import { createStore, combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import App from "./App";
