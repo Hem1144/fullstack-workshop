@@ -1,22 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 // import noteReducer from "./noteReducer";
 
-const initialState = [
-  {
-    content: "reducer defines how redux store works",
-    important: true,
-    id: 1,
-  },
-  {
-    content: "state of store can contain any data",
-    important: false,
-    id: 2,
-  },
-];
-
 const noteReducer = createSlice({
   name: "notes",
-  initialState,
+  initialState: [],
   reducers: {
     createNote(state, action) {
       const newState = state.concat(action.payload);
