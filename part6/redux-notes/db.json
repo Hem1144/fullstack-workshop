@@ -9,6 +9,31 @@
       "content": "state changes are made with actions",
       "important": false,
       "id": 2
+    },
+    {
+      "content": "note for backend",
+      "important": true,
+      "id": 3
+    },
+    {
+      "content": "New Note",
+      "important": true,
+      "id": 4
+    },
+    {
+      "content": "hemlal",
+      "important": true,
+      "id": 5
+    },
+    {
+      "content": "dddd",
+      "important": true,
+      "id": 6
+    },
+    {
+      "content": "New Note",
+      "important": true,
+      "id": 7
     }
   ]
 }
