@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import noteService from "../services/notes";
+
 // import noteReducer from "./noteReducer";
 
 const noteReducer = createSlice({
@@ -56,7 +58,15 @@ const noteReducer = createSlice({
 //     payload: id,
 //   };
 // };
+const { createNote, toggleImportantOf } = noteReducer.actions;
 
-export const { createNote, toggleImportantOf } = noteReducer.actions;
+const makeNote = (newNote) => {
+  return async (dispatch) => {
+    const myNote = await noteService.createNew(newNote);
+    dispatch(createNote(myNote));
+  };
+};
+
+export { createNote, toggleImportantOf, makeNote };
 
 export default noteReducer.reducer;

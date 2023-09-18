@@ -1,10 +1,7 @@
 import { createRoot } from "react-dom/client";
-import { configureStore } from "@reduxjs/toolkit";
-
 import App from "./App";
-import noteReducer from "./reducers/noteReducer";
-import filterReducer from "./reducers/filterReducer";
 import { Provider } from "react-redux";
+import store from "./store";
 
 //! This code is for pure redux code
 // const reducer = combineReducers({
@@ -13,14 +10,6 @@ import { Provider } from "react-redux";
 // });
 
 // const store = createStore(reducer);
-
-//! This steps is for redux-toolkit
-const store = configureStore({
-  reducer: {
-    notes: noteReducer,
-    filter: filterReducer,
-  },
-});
 
 const container = document.getElementById("root");
 const root = createRoot(container);
