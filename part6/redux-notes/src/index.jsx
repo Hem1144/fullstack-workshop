@@ -1,8 +1,9 @@
 import { createRoot } from "react-dom/client";
-import App from "./ReactQueryApp";
+import App from "./CounterApp";
 // import { Provider } from "react-redux";
 // import store from "./store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CounterContextProvider } from "./CounterContex";
 
 //! This code is for pure redux code
 // const reducer = combineReducers({
@@ -19,7 +20,7 @@ const queryClient = new QueryClient();
 
 root.render(
   //! props.children type component
-  <QueryClientProvider client={queryClient}>
+  <CounterContextProvider>
     <App />
-  </QueryClientProvider>
+  </CounterContextProvider>
 );
