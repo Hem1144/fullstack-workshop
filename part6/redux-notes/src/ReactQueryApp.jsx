@@ -1,21 +1,25 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getNotes, createNote, updateNote } from "./requests";
 
 const App = () => {
+  const queryClient = useQueryClient();
+
   const result = useQuery({
     queryKey: ["notes"],
     queryFn: getNotes,
+    refetchOnWindowFocus: false,
   });
 
   const newNoteMutation = useMutation(createNote, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    onSuccess: (myNote) => {
+      const notes = queryClient.getQueryData("notes");
+      queryClient.setQueryData("notes", notes.concat(myNote));
     },
   });
 
   const updateNoteMutation = useMutation(updateNote, {
     onSuccess: () => {
-      queryClient.invalidateQueries("notes");
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
     },
   });
 
@@ -30,7 +34,7 @@ const App = () => {
 
   const toggleImportance = (note) => {
     console.log("toggle importance of", note.id);
-    updateNoteMutation.mutate(note.id);
+    updateNoteMutation.mutate({ ...note, important: !note.important });
   };
 
   // console.log(JSON.parse(JSON.stringify(result)));

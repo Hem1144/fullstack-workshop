@@ -12,13 +12,28 @@
     },
     {
       "content": "one note",
-      "important": true,
+      "important": false,
       "id": 3
     },
     {
       "content": "Note Created",
       "important": true,
       "id": 4
+    },
+    {
+      "content": "Note",
+      "important": false,
+      "id": 5
+    },
+    {
+      "content": "Note",
+      "important": false,
+      "id": 6
+    },
+    {
+      "content": "Successful note",
+      "important": true,
+      "id": 7
     }
   ]
 }
