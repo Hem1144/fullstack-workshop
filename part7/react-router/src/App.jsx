@@ -3,6 +3,7 @@ import Notes from "./Notes";
 import Note from "./Note";
 import { useState } from "react";
 import Login from "./Login";
+import { Alert, Nav, Navbar } from "react-bootstrap";
 
 const notes = [
   {
@@ -39,32 +40,45 @@ const App = () => {
   const match = useMatch("/notes/:id");
   const note = match ? notes.find((note) => note.id == match.params.id) : null;
 
-  const footerStyle = { color: "blue", fontSize: "20px" };
+  const footerStyle = { color: "purple", fontSize: "20px" };
 
   const padding = {
     padding: 5,
   };
 
   return (
-    <>
-      <div>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/notes">
-          notes
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user ? (
-          <em>{user} logged in</em>
-        ) : (
-          <Link style={padding} to="/login">
-            login
-          </Link>
-        )}
-      </div>
+    <div className="container">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">
+                home
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/notes">
+                notes
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">
+                users
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              {user ? (
+                <Alert style={padding}>{user} logged in</Alert>
+              ) : (
+                <Link style={padding} to="/login">
+                  login
+                </Link>
+              )}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
@@ -80,7 +94,7 @@ const App = () => {
       <div>
         <i style={footerStyle}>Note app, Department of Computer Science 2023</i>
       </div>
-    </>
+    </div>
   );
 };
 
