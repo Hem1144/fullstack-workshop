@@ -46,25 +46,28 @@ const App = () => {
 
   const padding = {
     padding: 5,
+    fontSize: "20px",
+    fontWeight: "bold",
+    textDecoration: "none",
   };
 
   return (
     <Page>
       <Navigation>
         <Link style={padding} to="/">
-          home
+          Home
         </Link>
         <Link style={padding} to="/notes">
-          notes
+          Notes
         </Link>
         <Link style={padding} to="/users">
-          users
+          Users
         </Link>
         {user ? (
           <em>{user} logged in</em>
         ) : (
           <Link style={padding} to="/login">
-            login
+            Login
           </Link>
         )}
       </Navigation>
