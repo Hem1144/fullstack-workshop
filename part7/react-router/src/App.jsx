@@ -39,6 +39,8 @@ const App = () => {
   const match = useMatch("/notes/:id");
   const note = match ? notes.find((note) => note.id == match.params.id) : null;
 
+  const footerStyle = { color: "blue", fontSize: "20px" };
+
   const padding = {
     padding: 5,
   };
@@ -76,7 +78,7 @@ const App = () => {
       </Routes>
 
       <div>
-        <i>Note app, Department of Computer Science 2023</i>
+        <i style={footerStyle}>Note app, Department of Computer Science 2023</i>
       </div>
     </>
   );
