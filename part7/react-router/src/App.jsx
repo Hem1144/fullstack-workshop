@@ -4,7 +4,8 @@ import Note from "./Note";
 import { useState } from "react";
 import Login from "./Login";
 // import { Nav, Navbar } from "react-bootstrap";
-import { Alert, Container, Button, AppBar, Toolbar } from "@mui/material";
+// import { Alert, Container, Button, AppBar, Toolbar } from "@mui/material";
+import { Navigation } from "./components/Button";
 
 const notes = [
   {
@@ -43,32 +44,30 @@ const App = () => {
 
   const footerStyle = { color: "purple", fontSize: "20px" };
 
-  // const padding = {
-  //   padding: 5,
-  // };
+  const padding = {
+    padding: 5,
+  };
 
   return (
-    <Container>
-      <AppBar position="static">
-        <Toolbar>
-          <Button color="inherit" component={Link} to="/">
-            home
-          </Button>
-          <Button color="inherit" component={Link} to="/notes">
-            notes
-          </Button>
-          <Button color="inherit" component={Link} to="/users">
-            users
-          </Button>
-          {user ? (
-            <Alert>{user} logged in</Alert>
-          ) : (
-            <Button color="inherit" component={Link} to="/login">
-              login
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+    <>
+      <Navigation>
+        <Link style={padding} to="/">
+          home
+        </Link>
+        <Link style={padding} to="/notes">
+          notes
+        </Link>
+        <Link style={padding} to="/users">
+          users
+        </Link>
+        {user ? (
+          <em>{user} logged in</em>
+        ) : (
+          <Link style={padding} to="/login">
+            login
+          </Link>
+        )}
+      </Navigation>
 
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
@@ -84,7 +83,7 @@ const App = () => {
       <div>
         <i style={footerStyle}>Note app, Department of Computer Science 2023</i>
       </div>
-    </Container>
+    </>
   );
 };
 
