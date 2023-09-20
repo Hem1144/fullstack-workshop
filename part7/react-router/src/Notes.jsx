@@ -1,22 +1,33 @@
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+// import { Table } from "react-bootstrap";
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 
 const Notes = ({ notes }) => {
   return (
     <>
       <h2>Notes</h2>
-      <Table striped>
-        <tbody>
-          {notes.map((note) => (
-            <tr key={note.id}>
-              <td>
-                <Link to={`/notes/${note.id}`}>{note.content}</Link>
-              </td>
-              <td>{note.user}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <TableContainer>
+        <Table>
+          <TableBody>
+            {notes.map((note) => (
+              <TableRow key={note.id}>
+                <TableCell>
+                  <Link to={`/notes/${note.id}`}>{note.content} </Link>
+                </TableCell>
+                <TableCell>
+                  <strong>{note.important ? "important" : ""}</strong>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
