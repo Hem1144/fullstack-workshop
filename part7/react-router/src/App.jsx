@@ -5,7 +5,7 @@ import { useState } from "react";
 import Login from "./Login";
 // import { Nav, Navbar } from "react-bootstrap";
 // import { Alert, Container, Button, AppBar, Toolbar } from "@mui/material";
-import { Navigation } from "./components/Button";
+import { Navigation, Footer, Page } from "./components/Button";
 
 const notes = [
   {
@@ -42,14 +42,14 @@ const App = () => {
   const match = useMatch("/notes/:id");
   const note = match ? notes.find((note) => note.id == match.params.id) : null;
 
-  const footerStyle = { color: "purple", fontSize: "20px" };
+  // const footerStyle = { color: "purple", fontSize: "20px" };
 
   const padding = {
     padding: 5,
   };
 
   return (
-    <>
+    <Page>
       <Navigation>
         <Link style={padding} to="/">
           home
@@ -71,19 +71,19 @@ const App = () => {
 
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
         <Route
           path="/users"
           element={user ? <Users /> : <Navigate replace to="/login" />}
-        />{" "}
+        />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/" element={<Home />} />
       </Routes>
 
-      <div>
-        <i style={footerStyle}>Note app, Department of Computer Science 2023</i>
-      </div>
-    </>
+      <Footer>
+        <em>Note app, Department of Computer Science 2022</em>
+      </Footer>
+    </Page>
   );
 };
 

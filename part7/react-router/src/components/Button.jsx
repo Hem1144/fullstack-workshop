@@ -11,7 +11,8 @@ export const Button = styled.button`
 `;
 
 export const Input = styled.input`
-  margin: 0.25em;
+  margin: 0.45em;
+  border-radius: 10px;
 `;
 
 export const Page = styled.div`
