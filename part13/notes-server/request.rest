@@ -2,9 +2,15 @@ POST  http://localhost:3001/api/notes/
 Content-Type: application/json
 
 {
-    "content":"note creation using token",
+    "content":"note creation using SQL server 2",
     "important":"false"
 }
 
 ###
+PUT  http://localhost:3001/api/notes/2
+Content-Type: application/json
+
+{
+    "important":"true"
+}
 
