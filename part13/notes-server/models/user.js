@@ -1,33 +1,32 @@
 const { Model, DataTypes } = require("sequelize");
+
 const { sequelize } = require("../util/db");
 
-class Note extends Model {}
-Note.init(
+class User extends Model {}
+
+User.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    content: {
-      type: DataTypes.TEXT,
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
-    important: {
-      type: DataTypes.BOOLEAN,
-    },
-    date: {
-      type: DataTypes.DATE,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
     sequelize,
     underscored: true,
     timestamps: false,
-    modelName: "note",
+    modelName: "user",
   }
 );
 
-// Note.sync(); //! It create table accoding to your given schema
-
-module.exports = Note;
+module.exports = User;

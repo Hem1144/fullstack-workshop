@@ -1,8 +1,24 @@
+const jwt = require("jsonwebtoken");
 const app = require("express").Router();
 const { Note } = require("../models/");
+const { SECRET } = require("../util/config");
 
 const noteFinder = async (req, res, next) => {
   req.note = await Note.findByPk(req.params.id);
+  next();
+};
+
+const tokenExtractor = (req, res, next) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    try {
+      req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
+    } catch {
+      return res.status(401).json({ error: "token invalid" });
+    }
+  } else {
+    return res.status(401).json({ error: "token missing" });
+  }
   next();
 };
 
@@ -26,8 +42,10 @@ app.get("/:id", noteFinder, async (req, res) => {
   }
 });
 
-app.post("/", async (req, res) => {
-  // console.log(req.body);
+app.post("/", tokenExtractor, async (req, res) => {
+  console.log("logging not post", req.body);
+  console.log("logging extracted token", req.decodedToken);
+  req.body.userId = req.decodedToken.id;
   const note = await Note.create(req.body);
   res.json(note);
 });
