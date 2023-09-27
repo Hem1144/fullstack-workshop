@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const app = require("express").Router();
-const { Note } = require("../models/");
+const { Note, User } = require("../models/");
 const { SECRET } = require("../util/config");
+const { Op } = require("sequelize");
 
 const noteFinder = async (req, res, next) => {
   req.note = await Note.findByPk(req.params.id);
@@ -23,10 +24,32 @@ const tokenExtractor = (req, res, next) => {
 };
 
 app.get("/", async (req, res) => {
-  // const notes = await sequelize.query("SELECT * FROM notes", {  //! Using SQL command
-  //   type: QueryTypes.SELECT,
-  // });
-  const notes = await Note.findAll(); //! Using mongoose type
+  // console.log("Query param important is", req.query.important);
+  // console.log("Query param class is", req.query.class);
+
+  let important = {
+    [Op.in]: [true, false],
+  };
+
+  const where = {};
+  if (req.query.search) {
+    where.content = {
+      [Op.substring]: req.query.search,
+    };
+  }
+
+  if (req.query.important) {
+    important = req.query.important === "true";
+  }
+
+  const notes = await Note.findAll({
+    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: ["name"],
+    },
+    where,
+  }); //! Using mongoose type
   res.json(notes);
 });
 
@@ -52,7 +75,7 @@ app.post("/", tokenExtractor, async (req, res) => {
 
 app.put("/:id", noteFinder, async (req, res) => {
   // const note = await Note.findByPk(req.params.id);
-  console.log(note.toJSON());
+  console.log(req.note.toJSON());
   if (req.note) {
     req.note.important = req.body.important;
     await req.note.save();
