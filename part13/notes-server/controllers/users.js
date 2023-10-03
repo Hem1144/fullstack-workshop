@@ -4,25 +4,12 @@ const { User, Note, Team } = require("../models");
 const { tokenExtractor, isAdmin } = require("../util/middleware");
 
 router.get("/", async (req, res) => {
-  const users = await User.findAll({
+  const users = await User.scope("disabled").findAll({
     include: [
       {
         model: Note,
         attributes: { exclude: ["userId"] },
       },
-      {
-        model: Note,
-        as: "marked_notes",
-        attributes: { exclude: ["userId"] },
-        through: {
-          attributes: [],
-        },
-        include: {
-          model: User,
-          attributes: ["name"],
-        },
-      },
-
       {
         model: Team,
         attributes: ["name", "id"],
@@ -32,7 +19,8 @@ router.get("/", async (req, res) => {
       },
     ],
   });
-  res.json(users);
+  let usersWithNotes = await User.with_notes(0);
+  res.json({ ...users, usersWithNotes });
 });
 
 router.post("/", async (req, res) => {
@@ -45,24 +33,42 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  console.log(req.query.teams);
   const user = await User.findByPk(req.params.id, {
-    include: {
-      model: Note,
-    },
+    attributes: { exclude: [""] },
+    include: [
+      {
+        model: Note,
+        attributes: { exclude: ["userId"] },
+      },
+      // {
+      //   model: Note,
+      //   as: "marked_notes",
+      //   attributes: { exclude: ["userId"] },
+      //   through: {
+      //     attributes: [],
+      //   },
+      //   include: {
+      //     model: User,
+      //     attributes: ["name"],
+      //   },
+      // },
+    ],
   });
 
-  if (user) {
-    // user.notes.forEach((note) => {
-    //   console.log(note.content);
-    // });
-    res.json({
-      username: user.username,
-      name: user.name,
-      note_count: user.notes.length,
-    });
-  } else {
-    res.status(404).end();
+  if (!user) {
+    return res.status(404).end();
   }
+
+  let teams = undefined;
+  if (req.query.teams === "true") {
+    teams = await user.getTeams({
+      attributes: ["name"],
+      joinTableAttributes: [],
+    });
+  }
+  let noteNumber = await user.number_of_notes();
+  res.json({ ...user.toJSON(), teams, noteNumber });
 });
 
 router.put("/:username", tokenExtractor, isAdmin, async (req, res) => {
