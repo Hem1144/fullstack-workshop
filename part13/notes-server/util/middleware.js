@@ -1,6 +1,6 @@
 const { SECRET } = require("./config");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/");
+const { User } = require("../models");
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
