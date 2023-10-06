@@ -34,6 +34,10 @@
       "content": "Successful note",
       "important": true,
       "id": 7
+    },
+    {
+      "content": "Welcome to my note",
+      "id": 8
     }
   ]
 }
