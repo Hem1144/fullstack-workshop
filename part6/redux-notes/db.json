@@ -38,6 +38,14 @@
     {
       "content": "Welcome to my note",
       "id": 8
+    },
+    {
+      "content": "This is my demo note app",
+      "id": 9
+    },
+    {
+      "content": "this is my note",
+      "id": 10
     }
   ]
 }
